@@ -1,3 +1,4 @@
+import { TabsPage } from './../tabs/tabs';
 import { Component, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +7,6 @@ import { AlertController, LoadingController } from 'ionic-angular';
 import { PaginaBase } from '../../infraestrutura/PaginaBase'
 import { CursoIonicValidadores } from '../../validadores/CursoIonicValidadores';
 import { LoginModel } from '../../models/loginModel';
-import { HomePage } from '../home/home';
 import { IAutenticacaoService } from '../../providers.interfaces/IAutenticacaoService';
 
 
@@ -42,14 +42,16 @@ export class LoginPage extends PaginaBase {
       this.autenticacaoService.login(this.loginModel).subscribe(
         data => {
           this.esconderLoading();
-          this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
+          this.navCtrl.setRoot(TabsPage, {}, { animate: true, direction: 'forward' });
         },
         err => {
+          console.log(err);
+          console.log("deu erro");
           this.esconderLoading();
-          this.mostrarToast(`${JSON.parse(err._body).erro.mensagem}`);
+          this.mostrarToast(err.error.erro.menssagem);
         }
       );
-     
+
     }
   }
 

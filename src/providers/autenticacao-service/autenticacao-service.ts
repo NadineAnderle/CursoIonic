@@ -4,19 +4,19 @@ import { IAutenticacaoService } from '../../providers.interfaces/IAutenticacaoSe
 import { LoginModel } from '../../models/loginModel';
 import { Observable } from 'rxjs/Rx';
 import { ApiConsantes } from '../../app/ApiConstantes';
-import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @Injectable()
 export class AutenticacaoServiceProvider implements IAutenticacaoService {
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private nativeStorage: NativeStorage) {
     console.log('Hello AutenticacaoServiceProvider Provider');
   }
 
   login(loginModel: LoginModel): Observable<void> {
-    if (!loginModel || !loginModel.email || loginModel.senha) {
+    if (loginModel == null || loginModel.email == null || loginModel.senha == null) {
       return Observable.throw('Email e/ou senha não informados');
     }
 
@@ -26,8 +26,15 @@ export class AutenticacaoServiceProvider implements IAutenticacaoService {
     }
 
     return this.http.post(ApiConsantes.BASE_URL + '/' + ApiConsantes.Auth.LOGIN, corpoRequisicao)
-      .map(response => response.json()) //dispara a requisição para API
-     }
+      .map(res => {
+        let res = res; //dispara a requisição para API
+        this.nativeStorage.setItem('token_autenticacao', { token: res.data.token })
+          .then(
+            () => console.log('Token armazenado'),
+            (erro) => alert(erro)
+          );
+      });
+  }
 
   logout(): void {
 
