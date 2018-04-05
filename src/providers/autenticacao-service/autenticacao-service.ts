@@ -26,14 +26,7 @@ export class AutenticacaoServiceProvider implements IAutenticacaoService {
     }
 
     return this.http.post(ApiConsantes.BASE_URL + '/' + ApiConsantes.Auth.LOGIN, corpoRequisicao)
-      .map(res => {
-        let res = res; //dispara a requisição para API
-        this.nativeStorage.setItem('token_autenticacao', { token: res.data.token })
-          .then(
-            () => console.log('Token armazenado'),
-            (erro) => alert(erro)
-          );
-      });
+    .map((res:any)=> res);
   }
 
   logout(): void {
