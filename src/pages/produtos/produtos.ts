@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { PaginaBase } from '../../infraestrutura/PaginaBase';
+import { ProdutoModel } from '../../models/ProdutoModel';
+import { ProdutoServiceProvider } from '../../providers/produto-service/produto-service';
+import { DetalhesProdutoPage } from '../detalhes-produto/detalhes-produto';
 
 /**
  * Generated class for the ProdutosPage page.
@@ -13,13 +17,33 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-produtos',
   templateUrl: 'produtos.html',
 })
-export class ProdutosPage {
+export class ProdutosPage extends PaginaBase {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  produtos: ProdutoModel[];
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams, public loadingCtrl: LoadingController, public toasCtrl: ToastController,
+    public alertCtrl: AlertController, private produtoService: ProdutoServiceProvider) {
+    super({ alertCtrl: alertCtrl, loadingCtrl: loadingCtrl, toastCtrl: toasCtrl });
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProdutosPage');
+    this.mostrarLoading("Buscando produtos...");
+    this.produtoService.listarProdutos().subscribe(resposta => {
+      this.produtos = resposta;
+    },
+      erro => {
+        this.esconderLoading();
+        this.mostrarMenssagemErro(`Erro ao mostrar os produtos: ${erro}`);
+      });
+      alert("propriedade:"+this.produtos);
+  }
+
+  //faz navegação
+  mostrarDetalhesProduto(produto: ProdutoModel){
+    this.navCtrl.push(DetalhesProdutoPage, {
+      produto:produto //passando o parametro
+    });
   }
 
 }

@@ -38,7 +38,7 @@ export class LoginPage extends PaginaBase {
     this.foiSubmetido = true;
     this.esconderToast();
     if (this.loginFrmGroup.valid) {
-      this.mostrarLoading("atenticando...");
+      this.mostrarLoading("autenticando...");
       this.autenticacaoService.login(this.loginModel).subscribe(
         data => {
           this.esconderLoading();
