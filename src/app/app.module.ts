@@ -14,9 +14,9 @@ import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/a
 import {IAutenticacaoService} from '../providers.interfaces/IAutenticacaoService';
 import { TabsPage } from '../pages/tabs/tabs';
 import { PerfilPage } from '../pages/perfil/perfil';
-import {NativeStorage} from '@ionic-native/native-storage'
 import { ProdutoServiceProvider } from '../providers/produto-service/produto-service';
 import { DetalhesProdutoPage } from '../pages/detalhes-produto/detalhes-produto';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { DetalhesProdutoPage } from '../pages/detalhes-produto/detalhes-produto'
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -49,7 +50,6 @@ import { DetalhesProdutoPage } from '../pages/detalhes-produto/detalhes-produto'
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: 'IAutenticacaoService', useClass: AutenticacaoServiceProvider},
-    NativeStorage,
     ProdutoServiceProvider
   ]
 })

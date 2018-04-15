@@ -8,6 +8,8 @@ import { PaginaBase } from '../../infraestrutura/PaginaBase'
 import { CursoIonicValidadores } from '../../validadores/CursoIonicValidadores';
 import { LoginModel } from '../../models/loginModel';
 import { IAutenticacaoService } from '../../providers.interfaces/IAutenticacaoService';
+import { ISubscription } from 'rxjs/Subscription';
+
 
 
 @IonicPage()
@@ -20,6 +22,9 @@ export class LoginPage extends PaginaBase {
   loginFrmGroup: FormGroup
   foiSubmetido: boolean;
   loginModel: LoginModel;
+  autenticado: boolean;
+  private subscription: ISubscription;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, formBuilder: FormBuilder,
     public alertCtrl: AlertController,
@@ -34,24 +39,31 @@ export class LoginPage extends PaginaBase {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    
+    
+  }
+
   login(): void {
     this.foiSubmetido = true;
     this.esconderToast();
     if (this.loginFrmGroup.valid) {
       this.mostrarLoading("autenticando...");
-      this.autenticacaoService.login(this.loginModel).subscribe(
+      const subscription = this.autenticacaoService.login(this.loginModel).subscribe(
         data => {
           this.esconderLoading();
-          this.navCtrl.setRoot(TabsPage, {}, { animate: true, direction: 'forward' });
+          //espera um segundo para gravar o token
+          setTimeout(() => {
+            this.navCtrl.setRoot(TabsPage, {}, { animate: true, direction: 'forward' });
+          }, 1000);
         },
         err => {
-          console.log(err);
-          console.log("deu erro");
           this.esconderLoading();
           this.mostrarToast(err.error.erro.menssagem);
         }
       );
-
     }
   }
 
