@@ -1,25 +1,36 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PaginaBase } from '../../infraestrutura/PaginaBase';
 
-/**
- * Generated class for the PerfilPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
   selector: 'page-perfil',
   templateUrl: 'perfil.html',
 })
-export class PerfilPage {
+export class PerfilPage extends PaginaBase{
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  imagemBase64:string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,private camera: Camera,
+    public loadingCtrl: LoadingController, public toasCtrl: ToastController, public alertCtrl: AlertController) {
+      super({ alertCtrl: alertCtrl, loadingCtrl: loadingCtrl, toastCtrl: toasCtrl });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
   }
 
+  tirarFoto(): void {
+    this.camera.getPicture({
+      destinationType:  this.camera.DestinationType.DATA_URL,
+      targetWidth:1000,
+      targetHeight:1000
+    }).then(
+      (imagem)=>{
+        this.imagemBase64 ="data:image/jpeg;base64",+imagem
+      }
+    );
+  }
 }

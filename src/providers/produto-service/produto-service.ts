@@ -47,7 +47,7 @@ export class ProdutoServiceProvider implements IProdutoService {
           p.categoria = produto.categoria;
           p.descricao = produto.descricao;
           p.nome = produto.nome;
-          p.icone = produto.categoria == 'doces' ? 'alert' : 'basket';
+          p.icone = produto.categoria == 'z' ? 'alert' : 'basket';
           return p;
         })
         return resultado;

@@ -110,9 +110,9 @@ export class ProdutosPage extends PaginaBase {
           role: 'cancel',
           handler: () => {
             this.categoriaSelecionada = '';
-            this.filtradoPorCategoria = false;
-            this.produtosFiltrados = this.produtos;
             this.termo = '';
+            this.filtradoPorCategoria = false;
+            this.produtosFiltrados = this.produtos; 
           }
         }
       ]
