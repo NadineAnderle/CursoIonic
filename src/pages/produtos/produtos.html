@@ -7,12 +7,36 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Lista de produtos</ion-title>
+    <ion-title>
+      Lista de produtos
+      <ion-searchbar
+      [(ngModel)]="termo"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="filtrarProdutosPorNome()">
+    </ion-searchbar>
+    
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only  (click)="filtrarPorCategoria()">
+        <ion-icon name="funnel" [style.color]="filtradoPorCategoria ? 'blue' :'gray'"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let produto of produtosFiltrados" (click)="mostrarDetalhesProduto(produto)">
+      <ion-icon [name]="produto.icone" item-left></ion-icon>
+      {{produto.nome}}
+      <ion-icon  name="arrow-round-forward" item-right></ion-icon>
+    </button>
+  
+    <!-- <ion-item text-wrap *ngFor="let produto of produtos">
+      <p>{{produto.nome}}</p> 
+    </ion-item> -->
+  </ion-list>
 
 </ion-content>

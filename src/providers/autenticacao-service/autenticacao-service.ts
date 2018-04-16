@@ -4,14 +4,15 @@ import { IAutenticacaoService } from '../../providers.interfaces/IAutenticacaoSe
 import { LoginModel } from '../../models/loginModel';
 import { Observable } from 'rxjs/Rx';
 import { ApiConsantes } from '../../app/ApiConstantes';
+import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/map';
-import { NativeStorage } from '@ionic-native/native-storage';
+// import { NativeStorage } from '@ionic-native/native-storage';
 
 @Injectable()
 export class AutenticacaoServiceProvider implements IAutenticacaoService {
 
-  constructor(public http: HttpClient, private nativeStorage: NativeStorage) {
+  constructor(public http: HttpClient, private storage: Storage/*private nativeStorage: NativeStorage*/) {
     console.log('Hello AutenticacaoServiceProvider Provider');
   }
 
@@ -26,7 +27,14 @@ export class AutenticacaoServiceProvider implements IAutenticacaoService {
     }
 
     return this.http.post(ApiConsantes.BASE_URL + '/' + ApiConsantes.Auth.LOGIN, corpoRequisicao)
-    .map((res:any)=> res);
+      .map((res: any) => {
+        res;
+        this.storage.set('token_autenticacao', { token: res.data.token })
+          .then(
+            () => console.log('token armazenado'),
+            (erro) => alert(erro)
+          );
+      })//native storage/ ionic storage não usa observables e sim promisses
   }
 
   logout(): void {

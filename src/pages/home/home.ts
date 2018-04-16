@@ -1,6 +1,7 @@
-import { NativeStorage } from '@ionic-native/native-storage';
+// import { NativeStorage } from '@ionic-native/native-storage';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-home',
@@ -9,9 +10,9 @@ import { NavController } from 'ionic-angular';
 export class HomePage {
 
   token: string;
-  constructor(public navCtrl: NavController, private nativeStorage: NativeStorage) {
+  constructor(public navCtrl: NavController,private storage: Storage ) {
 
-    this.nativeStorage.getItem('token_autenticacao')
+    this.storage.get('token_autenticacao')
     .then(
       data => this.token = data.token,
       erro => this.token='<sem token>'

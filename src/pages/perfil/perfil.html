@@ -14,5 +14,12 @@
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <p>Olá</p>
+      <img [src]="imagemBase64" *ngIf="imagemBase64"/>
+      <button ion-button (click)="tirarFoto()">Tirar uma foto</button>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

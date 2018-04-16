@@ -5,7 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,7 +14,9 @@ import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/a
 import {IAutenticacaoService} from '../providers.interfaces/IAutenticacaoService';
 import { TabsPage } from '../pages/tabs/tabs';
 import { PerfilPage } from '../pages/perfil/perfil';
-import {NativeStorage} from '@ionic-native/native-storage'
+import { ProdutoServiceProvider } from '../providers/produto-service/produto-service';
+import { DetalhesProdutoPage } from '../pages/detalhes-produto/detalhes-produto';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,15 @@ import {NativeStorage} from '@ionic-native/native-storage'
     LoginPage,
     TabsPage,
     ProdutosPage,
-    PerfilPage
+    PerfilPage,
+    DetalhesProdutoPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -38,14 +42,15 @@ import {NativeStorage} from '@ionic-native/native-storage'
     LoginPage,
     TabsPage,
     ProdutosPage,
-    PerfilPage
+    PerfilPage,
+    DetalhesProdutoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: 'IAutenticacaoService', useClass: AutenticacaoServiceProvider},
-    NativeStorage
+    ProdutoServiceProvider
   ]
 })
 export class AppModule {}
